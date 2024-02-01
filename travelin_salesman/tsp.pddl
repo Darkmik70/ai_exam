@@ -9,34 +9,30 @@
 (:predicates ;todo: define predicates here
     
     (CITY ?c)
-    (MAN ?m)
+    
+    (AGENT ?a)
 
-    ; has salesman seen the city
+    ; agent is in the city
+    (at-agent ?c)
+
+    ; salesman needs to visit the city
+    (to-see ?c)
+
+    ; salesman has seen this city
     (has-seen ?c)
 
     ; are the two cities connected
     (is-connected ?c1 ?c2)
-    
-    
 
-    ; in which room robot is
-    (at-robot ?r) 
-    
-    ; where nuts and bolts are
-    (at-nut ?n ?r)
-    (at-screw ?s ?r)
-
-    ; nuts and bolts are tight
-    (tight-nut ?n)
-    (tight-screw ?s)
 )
-)
-
 
 (:action move
-    
-)
-
-;define actions here
-
+    :parameters (?from ?to ?a)
+    :precondition (and 
+        (CITY ?from) (CITY ?to) (AGENT ?a)
+        (is-connected ?from ?to) (to-see ?to) (at-agent ?from)
+    )
+    :effect (and 
+        (not (at-agent ?from)) (at-agent ?to) (not (to-see ?to)) (has-seen ?to))
+    )
 )
